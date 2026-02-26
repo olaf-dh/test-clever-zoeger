@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>API Abfrage</h1>
+
+    <form method="post">
+        <div>
+            <label for="query">Domain oder Firmenname:</label>
+            <input
+                type="text"
+                id="query"
+                name="query"
+                placeholder="z.B. audi.de"
+                required
+            >
+        </div>
+
+        <div style="margin-top: 15px;">
+            <button type="submit" name="action" value="company">
+                Firma suchen
+            </button>
+
+            <button type="submit" name="action" value="people">
+                Personen suchen
+            </button>
+        </div>
+    </form>
+
+    {% if result is defined and result is not null %}
+        <hr>
+
+        {% if result.success %}
+            <h2>Ergebnis</h2>
+            <pre>{{ result.data|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE')) }}</pre>
+        {% else %}
+            <div style="color: red;">
+                Fehler: {{ result.error }}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
